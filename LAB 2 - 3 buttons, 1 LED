@@ -77,25 +77,4 @@ void loop(){
     else{
       digitalWrite(LEDpin1, LOW);
     }
- 
-  /*if(buttonState2 == 2){
-    digitalWrite(LEDpin1, HIGH); 
-    delay(100);
-    digitalWrite(LEDpin1, LOW);
-    delay(50);
-}
-    else{
-      digitalWrite(LEDpin1, LOW);
-    }
-    
-  if(buttonState3 == 3){
-    digitalWrite(LEDpin1, HIGH); 
-    delay(800);
-    digitalWrite(LEDpin1, LOW);
-    delay(500);
-}
-    else{
-      digitalWrite(LEDpin1, LOW);
-    }
-*/
 }
