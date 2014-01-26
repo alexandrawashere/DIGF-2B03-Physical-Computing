@@ -1,0 +1,101 @@
+/*DIGF 2B03 PHYSICAL COMPUTING WINTER 2014 - ALEXANDRA LAU
+
+Lab 2: Create a circuit and an Arduino program where 3 buttons allow you to change the blinking of a single LED.
+
+INCLUDED: 
+3 buttons
+1 LEDS
+
+*/
+
+
+// STATING STUFF
+int LEDpin1 = 13;
+//LED STATE
+//int ledState = LOW;
+
+//BUTTONSSSS
+int buttonPin = 2;
+int buttonPin2 = 3;
+ int buttonPin3 = 4;
+
+//BUTTON STATESSSS
+int buttonState = 0;
+int buttonState2 = 0;
+int buttonState3 = 0;
+
+void setup (){
+  //WITH BUTTONS
+ pinMode(buttonPin, INPUT);
+ pinMode(buttonPin2, INPUT);
+ pinMode(buttonPin3, INPUT);
+}
+
+void loop(){
+  buttonState = digitalRead(buttonPin);
+  buttonState2 = digitalRead(buttonPin2);
+  buttonState3 = digitalRead(buttonPin3);
+  
+ // digitalWrite(LEDpin1,LOW); 
+  
+  if(buttonState == 1){
+    digitalWrite(LEDpin1, HIGH); 
+    delay(2000);
+    digitalWrite(LEDpin1, LOW);
+    delay(1000);
+     digitalWrite(LEDpin1, HIGH); 
+    delay(500);
+    digitalWrite(LEDpin1, LOW);
+    delay(100);
+}
+    else{
+      digitalWrite(LEDpin1, LOW);
+    }
+    
+    //button 2
+ if(buttonState2 == 1){
+    digitalWrite(LEDpin1, HIGH); 
+    delay(1000);
+    digitalWrite(LEDpin1, LOW);
+    delay(700);
+}
+    else{
+      digitalWrite(LEDpin1, LOW);
+    }
+    
+    //button 3
+     if(buttonState3 == 1){
+    digitalWrite(LEDpin1, HIGH); 
+    delay(5000);
+    digitalWrite(LEDpin1, LOW);
+    delay(4000);
+     digitalWrite(LEDpin1, HIGH); 
+    delay(600);
+    digitalWrite(LEDpin1, LOW);
+    delay(300);
+}
+    else{
+      digitalWrite(LEDpin1, LOW);
+    }
+ 
+  /*if(buttonState2 == 2){
+    digitalWrite(LEDpin1, HIGH); 
+    delay(100);
+    digitalWrite(LEDpin1, LOW);
+    delay(50);
+}
+    else{
+      digitalWrite(LEDpin1, LOW);
+    }
+    
+  if(buttonState3 == 3){
+    digitalWrite(LEDpin1, HIGH); 
+    delay(800);
+    digitalWrite(LEDpin1, LOW);
+    delay(500);
+}
+    else{
+      digitalWrite(LEDpin1, LOW);
+    }
+*/
+}
