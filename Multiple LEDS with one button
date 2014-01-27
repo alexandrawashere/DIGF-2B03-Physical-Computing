@@ -1,0 +1,100 @@
+/*DIGF 2B03 PHYSICAL COMPUTING WINTER 2014 - ALEXANDRA LAU
+
+Lab 2: Create a circuit and an Arduino program where 1 button can be used to 
+change between 3 or more blinking patterns of multiple LEDs.
+
+This code is being very werid and doesn't work even though it looks 
+like it is supposed to????!??!! I have also tried alot of other ones but none are working! :( 
+
+Adapted from http://arduino.cc/en/Tutorial/ButtonStateChange
+
+INCLUDED: 
+1 buttons
+3 LEDS
+
+*/
+
+// STATING STUFF
+int LEDpin1 = 12; //led pin
+int LEDpin2 = 11; //led pin
+int LEDpin3 = 10; //led pin
+
+int buttonPin = 2; // button pin
+int buttonState = 0; // curent state
+int buttonCounter = 0; //# of pushes
+int lastState = 0;
+
+void setup (){
+  //WITH BUTTONS
+ pinMode(buttonPin, INPUT);
+ pinMode(LEDpin1, OUTPUT);
+ pinMode(LEDpin2, OUTPUT);
+ pinMode(LEDpin3, OUTPUT);
+ Serial.begin(9600);
+
+}
+
+void loop(){
+  buttonState = digitalRead(buttonPin);
+if (buttonState != lastState){
+  if(buttonState == HIGH){
+    buttonCounter++;
+    Serial.println("On");
+    Serial.print("number:");
+    Serial.println(buttonCounter);
+  }
+  else {
+    Serial.println("Off");
+  }
+}
+
+lastState = digitalRead(buttonPin);
+
+
+if (buttonCounter >= 4){
+  buttonCounter = 0;
+}
+
+if (buttonCounter = 0){
+      digitalWrite(LEDpin1, LOW);
+      digitalWrite(LEDpin2, LOW);
+      digitalWrite(LEDpin3, LOW);
+}
+
+
+if(buttonCounter = 1){
+    digitalWrite(LEDpin1, LOW); 
+    delay(2000);
+    digitalWrite(LEDpin1, HIGH);
+    delay(1000);
+  }
+    else if (buttonState = 0){
+     digitalWrite(LEDpin1,LOW);
+    digitalWrite(LEDpin1,LOW); 
+    }
+    
+    if (buttonCounter = 2){
+      digitalWrite(LEDpin2, HIGH); 
+      delay(1000);
+      digitalWrite(LEDpin2, LOW);
+      delay(700);
+    }
+      else{
+       digitalWrite(LEDpin2,LOW);
+      digitalWrite(LEDpin2,LOW); 
+  }
+   if (buttonCounter = 3){
+      digitalWrite(LEDpin3, HIGH); 
+      delay(5000);
+      digitalWrite(LEDpin3, LOW);
+      delay(4000);
+       digitalWrite(LEDpin3, HIGH); 
+      delay(600);
+      digitalWrite(LEDpin3, LOW);
+      delay(300);
+   }
+      else{
+     digitalWrite(LEDpin3,LOW);
+    digitalWrite(LEDpin3,LOW); 
+      }
+}
