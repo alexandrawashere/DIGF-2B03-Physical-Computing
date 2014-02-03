@@ -1,0 +1,70 @@
+/*
+DIGF 2B03 PHYSICAL COMPUTING WINTER 2014 - ALEXANDRA LAU
+
+Lab 3:Using a light sensor (or another sensor), create a program that
+responds to your environment in an unusual way. Use at least 2 of the 
+following techniques for working with the sensor data: smoothing, 
+constraining, calibrating, mapping.  
+INCLUDED: 
+1 photocell
+2 LEDS
+
+Adapted from:  
+Ardunio Tutorial Callibration: http://arduino.cc/en/Tutorial/Calibration
+Ardunio Reference Map: http://arduino.cc/en/reference/map
+
+*/
+
+int LEDPin1 = 9;
+int LEDPin2 = 10;
+int LEDVal1; 
+int LEDVal2;
+
+int potentiometerPin = A0;
+int potentiometerValue;
+int sensorMin = 1023;
+int sensorMax = 0;
+
+//const int analogOutPin = 9;
+
+void setup(){
+   Serial.begin(9600);
+     //pinMode(LEDpin1, OUTPUT);
+   
+   while (millis() < 500){
+      potentiometerValue = analogRead(potentiometerPin);
+      
+       if (potentiometerValue > sensorMax) {
+      sensorMax = potentiometerValue;
+    }
+
+    // record the minimum sensor value
+    if (potentiometerValue < sensorMin) {
+      sensorMin = potentiometerValue;
+    }
+  }
+}
+
+
+void loop(){
+  potentiometerValue = analogRead(potentiometerPin);
+ Serial.println(potentiometerValue);
+ //Serial.print(",");
+ delay(50);
+   
+  potentiometerValue = analogRead(potentiometerPin);
+  potentiometerValue = map(potentiometerValue, sensorMin, sensorMax, 0, 255);
+  potentiometerValue = constrain(potentiometerValue, 0, 255);
+
+
+  analogWrite(LEDPin1, potentiometerValue);
+  analogWrite(LEDPin2, potentiometerValue);
+  
+  
+ if (potentiometerValue < 500){
+ digitalWrite(LEDPin2, HIGH);
+ delay(1000);
+  digitalWrite(LEDPin1, HIGH);
+ delay(500);
+}
+}
