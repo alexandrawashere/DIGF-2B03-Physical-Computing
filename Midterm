@@ -1,0 +1,144 @@
+/*DIGF 2B03 PHYSICAL COMPUTING - WINTER 2014
+Student: ALEXANDRA LAU 2467348
+Teacher: Kate Hartman
+
+Midterm Project: Combination lock with sensors, switches, buttons and LEDs.
+
+Included: 
+1 buttons
+1 Potentionmeter
+1 Light Sensor
+3 LEDS
+
+
+Adapted from:
+Ardunio Button State Change Detection: http://arduino.cc/en/Tutorial/ButtonStateChange
+Ardunio Cookbook by Michael Margolis: 7.2 Adjusting the Brightness of an LED
+
+*/
+
+//right to left
+int LedPin1 = 6;
+int LedPin2 = 5;
+int LedPin3 = 4;
+
+//stating buttons
+int buttonPin1 = 3;
+
+//button States
+int buttonState = 0;
+
+//Potentiometer
+int potentionmeter = A0;
+int potentionmeterValue = 0;
+int lightSensor = A1;
+int lightSensorValue = 0;
+
+//button counter
+int buttonCounter = 0;
+int lastButtonState = 0;
+
+
+void setup(){
+ Serial.begin(9600); 
+ 
+ // LEDS = OUTPUT
+ pinMode(LedPin1, OUTPUT);
+ pinMode(LedPin2, OUTPUT);
+ pinMode(LedPin3, OUTPUT);
+ 
+ //Buttons = INPUT
+ pinMode(buttonPin1, INPUT);
+ 
+  
+}
+
+void loop(){
+  //Dial
+  potentionmeterValue = analogRead(potentionmeter);
+  Serial.println(potentionmeterValue);
+  Serial.print(",");
+  //light Sensor
+  lightSensorValue = analogRead(lightSensor);
+  Serial.println(lightSensorValue);
+  Serial.print(",");
+  delay(100);
+  
+  //Input pin
+  buttonState = digitalRead(buttonPin1);
+    if (buttonState != lastButtonState){ 
+    if (buttonState == HIGH){
+       buttonCounter++;
+       Serial.print("Pushes:");
+       Serial.println(buttonCounter);
+      }
+}
+
+  lastButtonState = digitalRead(buttonPin1);
+
+//POTENTIONMETER
+  if (potentionmeterValue  >700 && potentionmeterValue <720){
+    analogWrite(LedPin1, 200);
+  }
+  else{ 
+    analogWrite(LedPin1, 50);
+  }    
+  if (potentionmeterValue == 0){
+     digitalWrite(LedPin1, 0);
+  }
+      
+      
+ // BUTTONS
+   if (buttonCounter == 12){
+     buttonCounter = 0;
+   }
+   if(buttonCounter < 2){
+     digitalWrite(LedPin2, 0);
+   }
+    if(buttonCounter == 6){
+     analogWrite(LedPin2, 10);
+   }
+    if(buttonCounter == 10){
+     analogWrite(LedPin2,100);
+   }
+    if (buttonCounter < 2){
+      analogWrite(LedPin2, 5);
+   }
+     if (buttonCounter == 0){
+       digitalWrite(LedPin2, 0);
+     }
+     
+//LIGHT SENSOR
+
+if (lightSensorValue > 300 && lightSensorValue < 400){
+  digitalWrite(LedPin3, HIGH);
+}
+else{
+  digitalWrite(LedPin3, LOW);
+}
+
+//UNLOCK
+if (potentionmeterValue  >700 && potentionmeterValue <720){
+    if(buttonCounter == 10){
+      if (lightSensorValue > 300 && lightSensorValue < 400){
+        digitalWrite(LedPin3, HIGH); 
+        delay(500);
+        digitalWrite(LedPin2, LOW);
+        delay(500);
+        digitalWrite(LedPin1, HIGH); 
+        delay(500);
+        
+      }
+  }
+}
+}
+
+
+
+        
+        
+        
+
+
+
+
