@@ -1,19 +1,25 @@
-/*DIGF 2B03 PHYSICAL COMPUTING - WINTER 2014
+/*
+Arduino Combination Lock
 Student: ALEXANDRA LAU 2467348
+DIGF 2B03 PHYSICAL COMPUTING - WINTER 2014
+OCAD University
 Teacher: Kate Hartman
+Feb 9 2014
+
+Adapted from:
+Ardunio Button State Change Detection: http://arduino.cc/en/Tutorial/ButtonStateChange
+Ardunio Cookbook by Michael Margolis: 7.2 Adjusting the Brightness of an LED http://arduino.cc/en/Tutorial/Dimmer
+
 
 Midterm Project: Combination lock with sensors, switches, buttons and LEDs.
 
 Included: 
-1 buttons
+1 Button
 1 Potentionmeter
 1 Light Sensor
 3 LEDS
+1 Arduino
 
-
-Adapted from:
-Ardunio Button State Change Detection: http://arduino.cc/en/Tutorial/ButtonStateChange
-Ardunio Cookbook by Michael Margolis: 7.2 Adjusting the Brightness of an LED
 
 */
 
@@ -56,7 +62,7 @@ void setup(){
 void loop(){
   //Dial
   potentionmeterValue = analogRead(potentionmeter);
-  Serial.println(potentionmeterValue);
+  Serial.println(potentionmeterValue); // just to read values of potentionmeter
   Serial.print(",");
   //light Sensor
   lightSensorValue = analogRead(lightSensor);
@@ -65,9 +71,10 @@ void loop(){
   delay(100);
   
   //Input pin
+  //BUTTON COUNTER 
   buttonState = digitalRead(buttonPin1);
-    if (buttonState != lastButtonState){ 
-    if (buttonState == HIGH){
+    if (buttonState != lastButtonState){  // check button  
+    if (buttonState == HIGH){ // if button is down, add to counter
        buttonCounter++;
        Serial.print("Pushes:");
        Serial.println(buttonCounter);
@@ -78,39 +85,39 @@ void loop(){
 
 //POTENTIONMETER
   if (potentionmeterValue  >700 && potentionmeterValue <720){
-    analogWrite(LedPin1, 200);
+    analogWrite(LedPin1, 255); // if potentionmeter is between 700 - 720, LED will be bright
   }
   else{ 
-    analogWrite(LedPin1, 50);
+    analogWrite(LedPin1, 100); // when potentionmeter is not in those values LED will be dimmer 
   }    
   if (potentionmeterValue == 0){
-     digitalWrite(LedPin1, 0);
+     digitalWrite(LedPin1, 0); // potentionmeter = 0 = off
   }
       
       
  // BUTTONS
-   if (buttonCounter == 12){
+   if (buttonCounter == 12){ // if button pushes is more than 12 then reset counter to 0
      buttonCounter = 0;
    }
-   if(buttonCounter < 2){
+   if(buttonCounter < 2){  // if button is less than 2 then LED is off
      digitalWrite(LedPin2, 0);
    }
-    if(buttonCounter == 6){
+    if(buttonCounter == 6){ // if pushes = 6 then LED will be dim
      analogWrite(LedPin2, 10);
    }
-    if(buttonCounter == 10){
+    if(buttonCounter == 10){ // 10 pushes = LED is bright and at correct commbination
      analogWrite(LedPin2,100);
    }
-    if (buttonCounter < 2){
+    if (buttonCounter < 2){ // this is somewhat unnesscary???? actually the first one is unesscary depends
       analogWrite(LedPin2, 5);
    }
-     if (buttonCounter == 0){
+     if (buttonCounter == 0){ // if button push = 0 LED is off
        digitalWrite(LedPin2, 0);
      }
      
 //LIGHT SENSOR
-
-if (lightSensorValue > 300 && lightSensorValue < 400){
+// if value is between 690 - 720, LED will turn on 
+if (lightSensorValue > 690 && lightSensorValue < 720){
   digitalWrite(LedPin3, HIGH);
 }
 else{
@@ -118,27 +125,18 @@ else{
 }
 
 //UNLOCK
+// if all these values aka the ones above are true, then blink leds
 if (potentionmeterValue  >700 && potentionmeterValue <720){
     if(buttonCounter == 10){
-      if (lightSensorValue > 300 && lightSensorValue < 400){
+      if (lightSensorValue > 690 && lightSensorValue < 720){
         digitalWrite(LedPin3, HIGH); 
-        delay(500);
+        delay(100);
         digitalWrite(LedPin2, LOW);
-        delay(500);
+        delay(200);
         digitalWrite(LedPin1, HIGH); 
-        delay(500);
+        delay(100);
         
       }
   }
 }
 }
-
-
-
-        
-        
-        
-
-
-
-
