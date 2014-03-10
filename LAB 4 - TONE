@@ -20,7 +20,10 @@ int noteDurations[] = {
   4, 8, 8, 4,4,4,4,4 };
 
 void setup() {
-   int sensorReading = analogRead(A0);
+  }
+  
+void loop() {
+  int sensorReading = analogRead(A0);
   Serial.println(sensorReading);
   // iterate over the notes of the melody:
   for (int thisNote = 0; thisNote < 8; thisNote++) {
@@ -40,6 +43,5 @@ void setup() {
   }
 }
 
-void loop() {
  
 }
