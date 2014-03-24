@@ -30,6 +30,8 @@ background(0);
 }
 void draw(){
 
+sensor = arduino.analogRead(pin);
+
 if (sensor >= 500){
   text ("Good Morning",100,100);
   fill (0, 102, 153);
