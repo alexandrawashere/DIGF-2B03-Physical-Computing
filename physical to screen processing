@@ -1,0 +1,46 @@
+import org.firmata.*;
+import cc.arduino.*;
+import processing.serial.*;
+
+
+//LOADING STUFF
+Serial myPort;
+Arduino arduino;
+float sensor = 0;
+int pin = 0;
+PFont font;
+
+
+void setup() {
+println(Arduino.list());
+//Serial
+
+  arduino = new Arduino(this, Arduino.list()[0], 57600);
+  arduino.pinMode(pin, Arduino.INPUT);
+
+/*println(Serial.list());
+String portName = Serial.list()[4];
+myPort = new Serial(this, portName, 9600);
+myPort.bufferUntil('\n');
+*/
+size(500 ,432);
+
+background(0);
+
+}
+void draw(){
+
+if (sensor >= 500){
+  text ("Good Morning",100,100);
+  fill (0, 102, 153);
+ 
+ if (sensor <= 499){
+  text ("Go to bed",100,100);
+   fill (0, 102, 153);
+   }
+   
+  }
+}
+
+
+//THIS DOESNT WORK?!??!?!
