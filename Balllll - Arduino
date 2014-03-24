@@ -1,0 +1,37 @@
+// Alexandra Lau
+// Lab 5 COMMUNICATION
+// MODIFIED Controlling a servo position using a potentiometer (variable resistor)  
+//by Michal Rinott <http://people.interaction-ivrea.it/m.rinott> 
+// AND
+// servo serial
+// by BARRAGAN <http://barraganstudio.com>
+
+#include <Servo.h> 
+ 
+int ballval = 0;
+ 
+Servo myservo;
+// create servo object to control a servo 
+ 
+void setup() 
+{ 
+  myservo.attach(9); 
+  // attaches the servo on pin 9 to the servo object 
+   Serial.begin(19200);
+   Serial.println("Ready");
+} 
+ 
+void loop() 
+{ 
+  if (Serial.available())
+  {
+    ballval = Serial.read();
+  } 
+   myservo.write(ballval); 
+   
+  delay(15);  
+  }  // waits for the servo to get there
+
+
+// Servo::refresh();
+ 
