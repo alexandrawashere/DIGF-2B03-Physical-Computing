@@ -27,7 +27,6 @@ void setup(){
 }
 
 void draw(){ 
-   //text (" 20 + 19 = ?", 10, 30);  //fill(0, 102, 153, 51);
     
 }
 
@@ -54,14 +53,16 @@ println();
     }
        
        
- if (sensors[0] == 1){ //39
+ if (sensors[0] == 1){ //39 //correct answer
       background(right);
-      myPort.write(1);
+      myPort.write(1);    // activiates servo
+     delay(60); // this makes the closer slower
       }
-    //  else if (millis() < 3000){
-     //myPort.write(0);
-   // }
-    if (sensors[1] == 1){ //80
+      else if (sensors[0] == 0){
+        myPort.write(0); // returns servo to orig. pos.
+        //delay(60);
+      }
+    if (sensors[1] == 1){ //80 // wrong answer
     background(wrong);  
   }
   if (sensors[2] == 1){ //40
