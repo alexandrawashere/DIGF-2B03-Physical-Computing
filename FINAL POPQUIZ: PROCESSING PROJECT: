@@ -1,4 +1,5 @@
 //SERVO NEEDS TO MOVE BACK AFTER CORRECT ANSWER
+//possibly add +score. after score is reached open box
 
 import processing.serial.*;
 Serial myPort;
@@ -58,8 +59,8 @@ println();
       myPort.write(1);    // activiates servo
      delay(60); // this makes the closer slower
       }
-      else if (sensors[0] == 0){
-        myPort.write(0); // returns servo to orig. pos.
+      else if (sensors[0] == 0){ // if button is not pressed 
+        myPort.write(0); // return servo to orig. pos.
         //delay(60);
       }
     if (sensors[1] == 1){ //80 // wrong answer
