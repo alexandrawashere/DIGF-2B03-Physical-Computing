@@ -1,0 +1,53 @@
+// NOT DONE
+//NEEDS TO ADD LIGHTS 
+
+
+#include <Servo.h> 
+ 
+Servo myservo;  // create servo object to control a servo 
+
+int buttonval = 0;
+
+int button1 = 2;
+int button1val = 0;
+int button2 = 3;
+int button2val = 0;
+int button3 = 4;
+int button3val = 0;
+
+void setup(){
+myservo.attach(9);  // attaches the servo on pin 9 to the servo object  
+
+Serial.begin(9600);
+
+pinMode(button1, INPUT);
+pinMode(button2, INPUT);
+pinMode(button3, INPUT);
+}
+
+void loop(){
+button1val = digitalRead(button1);
+Serial.print(button1val);
+Serial.print(",");
+button2val = digitalRead(button2);
+Serial.print(button2val);
+Serial.print(",");
+button3val = digitalRead(button3);
+Serial.print(button3val);
+Serial.println();
+delay(10);
+
+
+if (Serial.available ()) {
+   buttonval = Serial.read();
+ }
+ if (buttonval == 0){
+   myservo.write(90);
+   
+ }
+ if (buttonval == 1){
+   myservo.write(180);
+  
+   }
+     delay(15);
+}
