@@ -1,0 +1,75 @@
+//SERVO NEEDS TO MOVE BACK AFTER CORRECT ANSWER
+
+import processing.serial.*;
+Serial myPort;
+
+PImage case1;
+PImage answer1;
+PImage right;
+PImage wrong;
+PImage next;
+
+int buttonval = 0;
+ 
+void setup(){
+  case1 = loadImage("case1.jpg");
+  answer1 = loadImage("answers1.jpg");
+  right = loadImage("correct.jpg");
+  wrong = loadImage("wrong.jpg");
+  next = loadImage("next.jpg");
+  
+//Serial
+  println(Serial.list());
+  String portName = Serial.list()[4];
+  myPort = new Serial(this, portName, 9600);
+  myPort.bufferUntil('\n');
+  size(500 ,500);
+}
+
+void draw(){ 
+   //text (" 20 + 19 = ?", 10, 30);  //fill(0, 102, 153, 51);
+    
+}
+
+// SERIAL CODE
+void serialEvent(Serial myPort) {
+String myString = myPort.readStringUntil('\n');
+if (myString != null) {
+println(myString);
+}
+
+myString = trim(myString);
+int sensors[] = int(split(myString, ','));
+
+for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
+print("Sensor" + sensorNum + ": " + sensors[sensorNum] + "\t");
+}
+println();
+       
+        if(millis() < 3000){
+   background(case1);
+   }
+    else if (millis() > 4000)  {
+     background(answer1); 
+    }
+       
+       
+ if (sensors[0] == 1){ //39
+      background(right);
+      myPort.write(1);
+      }
+    //  else if (millis() < 3000){
+     //myPort.write(0);
+   // }
+    if (sensors[1] == 1){ //80
+    background(wrong);  
+  }
+  if (sensors[2] == 1){ //40
+  background(wrong);
+  // if (m < 2000);
+    //image(next, width, height);
+}
+}
+
+
+
