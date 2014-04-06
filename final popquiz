@@ -1,0 +1,168 @@
+//SERVO NEEDS TO MOVE BACK AFTER CORRECT ANSWER
+//possibly add +score. after score is reached open box
+import processing.serial.*;
+Serial myPort;
+
+PImage case1;
+PImage answer1;
+PImage right;
+PImage wrong;
+PImage next;
+PImage case2;
+PImage answer2;
+PImage popquiz;
+
+int buttonval = 0;
+int score = 0; 
+ 
+void setup(){
+  case1 = loadImage("case1.jpg");
+  answer1 = loadImage("answers1.jpg");
+  right = loadImage("correct.jpg");
+  wrong = loadImage("wrong.jpg");
+  next = loadImage("next.jpg");
+  case2 = loadImage("87+29.jpg");
+  answer2 = loadImage("answers2.jpg");
+  popquiz = loadImage("POPQUIZ.jpg");
+  
+//Serial
+  println(Serial.list());
+  String portName = Serial.list()[4];
+  myPort = new Serial(this, portName, 9600);
+  myPort.bufferUntil('\n');
+  size(500 ,500);
+}
+
+void draw(){ 
+text ("score ="+score, 10, 10);
+}
+
+// SERIAL CODE
+void serialEvent(Serial myPort) {
+String myString = myPort.readStringUntil('\n');
+if (myString != null) {
+println(myString);
+}
+
+myString = trim(myString);
+int sensors[] = int(split(myString, ','));
+
+for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
+print("Sensor" + sensorNum + ": " + sensors[sensorNum] + "\t");
+}
+println();
+
+//background(popquiz);
+
+//if (sensors[1] == 1 ){
+  //delay(30);
+
+  // OP 1
+  if(millis() < 3000){
+    background(case1);
+  } 
+  else if (millis() > 4000)  {
+  background(answer1);    
+  
+  // OP 1
+   if (sensors[0] == 1){ //39 //correct answer
+     background(right);
+      score = 1;
+    // myPort.write(1);    // activiates servo
+    // delay(10); // this makes the closer slower
+   }
+    else if (sensors[0] == 0){
+     //myPort.write(0); // returns servo to orig. pos.
+     score =score;
+     
+      if (millis() > 6000){
+       background(case2);
+     }
+       if (millis() > 7000){
+         background(answer2);
+         //wrong
+       }
+        else if (sensors[0] == 1){ //39 //correct answer
+           background(wrong);
+         }
+          //correct 
+           if (sensors[1] == 1){
+             background(right);
+               score = 2;
+                // myPort.write(1);    // activiates servo
+                 delay(10); // this makes the closer slower
+           }
+           else if (sensors[1] == 0){
+            // myPort.write(0); // returns servo to orig. pos.
+              score =score;
+           }
+           // wrong
+           else if (sensors[2] == 1){
+           background(wrong);
+         }
+   }
+   
+     
+     
+  
+
+ // OP 2    
+if (sensors[1] == 1){ //80 // wrong answer
+    background(wrong);  
+    /* if (millis() > 6000){
+       background(case2);
+     }
+       if (millis() > 7000){
+         background(answer2);
+         //wrong
+         if (sensors[0] == 1){ //if button is pushed = 1 is wrong
+           background(wrong);
+         }
+          //correct 
+           if (sensors[1] == 1){
+               score = +1;
+                // myPort.write(1);    // activiates servo
+                 delay(10); // this makes the closer slower
+           }
+           else if (sensors[1] == 0){
+             myPort.write(0); // returns servo to orig. pos.
+              score =score;
+           }
+           // wrong
+           if (sensors[2] == 1){
+           background(wrong);
+         }
+       }*/
+    }
+  
+// OP 3
+if (sensors[2] == 1){ //40
+  background(wrong);
+     /*if (millis() > 6000){
+       background(case2);
+     }
+       if (millis() > 7000){
+         background(answer2);
+         //wrong
+         if (sensors[0] == 0){ //39 //correct answer
+           background(wrong);
+         }
+          //correct 
+           if (sensors[1] == 1){
+               score = +1;
+                // myPort.write(1);    // activiates servo
+                 delay(10); // this makes the closer slower
+           }
+           else if (sensors[1] == 0){
+             //myPort.write(0); // returns servo to orig. pos.
+              score =score;
+           }
+           // wrong
+           if (sensors[2] == 1){
+           background(wrong);
+         }
+       }*/
+     }
+   }
+ }
+//}
