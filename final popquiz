@@ -3,6 +3,7 @@
 import processing.serial.*;
 Serial myPort;
 
+//loads images
 PImage case1;
 PImage answer1;
 PImage right;
@@ -11,6 +12,14 @@ PImage next;
 PImage case2;
 PImage answer2;
 PImage popquiz;
+PImage case3;
+PImage answer3;
+PImage case4;
+PImage answer4;
+PImage case5;
+PImage answer5;
+PImage congrats;
+PImage restart;
 
 int buttonval = 0;
 int score = 0; 
@@ -24,6 +33,14 @@ void setup(){
   case2 = loadImage("87+29.jpg");
   answer2 = loadImage("answers2.jpg");
   popquiz = loadImage("POPQUIZ.jpg");
+  case3 = loadImage("case3.jpg");
+  answer3 = loadImage("answer3.jpg");
+  case4 = loadImage("case4.jpg");
+  answer4 = loadImage("answer4.jpg");
+  case5 = loadImage("case5.jpg");
+  answer5 = loadImage("answer5.jpg");
+  congrats = loadImage("CONGRATS.jpg");
+  restart = loadImage("restart.jpg");
   
 //Serial
   println(Serial.list());
@@ -51,39 +68,41 @@ for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
 print("Sensor" + sensorNum + ": " + sensors[sensorNum] + "\t");
 }
 println();
+if (millis() < 2000){
+  background(popquiz);
+}
 
-//background(popquiz);
-
-//if (sensors[1] == 1 ){
-  //delay(30);
-
-  // OP 1
-  if(millis() < 3000){
+  // CASE 1
+  if(millis() > 6000){
     background(case1);
   } 
-  else if (millis() > 4000)  {
+  if (millis() > 10000)  {
   background(answer1);    
   
   // OP 1
    if (sensors[0] == 1){ //39 //correct answer
      background(right);
       score = 1;
-    // myPort.write(1);    // activiates servo
-    // delay(10); // this makes the closer slower
    }
-    else if (sensors[0] == 0){
-     //myPort.write(0); // returns servo to orig. pos.
-     score =score;
-     
-      if (millis() > 6000){
-       background(case2);
-     }
-       if (millis() > 7000){
+   if (sensors[1] == 1){ //80 // wrong answer
+    background(wrong);  
+   }
+    if (sensors[2] == 1){ //40
+  background(wrong);
+    }
+  }
+
+//CASE 2
+ if (millis() > 13000){
+     if (sensors[0] == 0){
+          background(case2);
+        }
+     if (millis() > 17000){ 
          background(answer2);
-         //wrong
-       }
-        else if (sensors[0] == 1){ //39 //correct answer
+        //wrong
+       if (sensors[0] == 1){ //39 //correct answer
            background(wrong);
+           score = score;
          }
           //correct 
            if (sensors[1] == 1){
@@ -92,23 +111,120 @@ println();
                 // myPort.write(1);    // activiates servo
                  delay(10); // this makes the closer slower
            }
-           else if (sensors[1] == 0){
-            // myPort.write(0); // returns servo to orig. pos.
-              score =score;
+           // wrong
+           if (sensors[2] == 1){
+           background(wrong);
+           score =score;
+         }
+       }
+     }
+   
+ //CASE 3
+ if (millis() > 19000){
+     if (sensors[0] == 0){
+          background(case3);
+        }
+     if (millis() > 22000){ 
+         background(answer3);
+        //wrong
+       if (sensors[0] == 1){ //39 //correct answer
+           background(wrong);
+           score = score;
+         }
+          //correct 
+           if (sensors[1] == 1){
+             background(right);
+               score = 3;
            }
            // wrong
-           else if (sensors[2] == 1){
+           if (sensors[2] == 1){
            background(wrong);
+           score =score;
          }
-   }
-   
+       }
+     }
+ 
+ //CASE 4 
+ if (millis() > 25000){
+     if (sensors[0] == 0){
+          background(case4);
+        }
+     if (millis() > 28000){ 
+         background(answer4);
+        //wrong
+       if (sensors[0] == 1){ 
+           background(wrong);
+           score = score;
+         }
+          //wrong
+           if (sensors[1] == 1){
+             background(wrong);
+               score = score;
+           }
+           // correct
+           if (sensors[2] == 1){
+           background(right);
+           score = 4;
+         }
+       }
+     }
+ 
+ //case 5
+  if (millis() > 31000){
+     if (sensors[0] == 0){
+          background(case5);
+        }
+     if (millis() > 34000){ 
+         background(answer5);
+        //correct
+       if (sensors[0] == 1){  
+           background(right);
+           score = 5;
+         }
+          //wrong
+           if (sensors[1] == 1){
+             background(wrong);
+               score = score;
+           }
+           // wrong
+           if (sensors[2] == 1){
+           background(wrong);
+           score = score;
+         }
+       }
+     }
      
-     
-  
+if (score == 5){ // if score == 5 then you win 
+   background(congrats);
+   myPort.write(1); // candy opens
+if (millis() > 38000){
+    myPort.write(0);
+}
+}
+if (millis() > 42000){
+  if (score <= 4 ){
+    background(restart);
+   // if (sensors[0] == 1){
+     // setup();
+    }
+  }
+}
+
+/*if (millis() > 39000){   //resets?
+   if (sensors[0] == 1){
+     // setup();
+    }
+}
+}*/
+ 
+
+
+
+
+ 
 
  // OP 2    
-if (sensors[1] == 1){ //80 // wrong answer
-    background(wrong);  
+
     /* if (millis() > 6000){
        background(case2);
      }
@@ -133,11 +249,10 @@ if (sensors[1] == 1){ //80 // wrong answer
            background(wrong);
          }
        }*/
-    }
-  
+
 // OP 3
-if (sensors[2] == 1){ //40
-  background(wrong);
+
+
      /*if (millis() > 6000){
        background(case2);
      }
@@ -162,7 +277,3 @@ if (sensors[2] == 1){ //40
            background(wrong);
          }
        }*/
-     }
-   }
- }
-//}
