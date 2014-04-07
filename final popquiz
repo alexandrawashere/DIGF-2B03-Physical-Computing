@@ -1,5 +1,17 @@
-//SERVO NEEDS TO MOVE BACK AFTER CORRECT ANSWER
-//possibly add +score. after score is reached open box
+/*DIGF 2B03 PHYSICAL COMPUTING WINTER 2014 - ALEXANDRA LAU
+Last Updated April 7th 2014.
+
+Final: PopQuiz with reward. Teach kids math and if you get them all correct you get a reward. Idea was firsted inspired by
+a physical flappy bird box game thing I saw online and thought I could do something similar for this future classroom themed project
+but someone said it would be better to get a dispenser machine, and luckliy I had one at home, so I took it apart. 
+
+INCLUDED: 
+3 buttons
+1 servo 
+1 candy dispenser machine
+7 bags of mini M&Ms
+
+*/
 import processing.serial.*;
 Serial myPort;
 
@@ -22,22 +34,23 @@ PImage congrats;
 PImage restart;
 
 int buttonval = 0;
-int score = 0; 
+int score = 0;
+int startTime = 0;
  
 void setup(){
-  case1 = loadImage("case1.jpg");
-  answer1 = loadImage("answers1.jpg");
+  popquiz = loadImage("POPQUIZ.jpg"); 
   right = loadImage("correct.jpg");
   wrong = loadImage("wrong.jpg");
-  next = loadImage("next.jpg");
+  next = loadImage("next.jpg"); 
+  case1 = loadImage("case1.jpg");
   case2 = loadImage("87+29.jpg");
-  answer2 = loadImage("answers2.jpg");
-  popquiz = loadImage("POPQUIZ.jpg");
   case3 = loadImage("case3.jpg");
-  answer3 = loadImage("answer3.jpg");
   case4 = loadImage("case4.jpg");
-  answer4 = loadImage("answer4.jpg");
   case5 = loadImage("case5.jpg");
+  answer1 = loadImage("answers1.jpg");
+  answer2 = loadImage("answers2.jpg");
+  answer3 = loadImage("answer3.jpg");
+  answer4 = loadImage("answer4.jpg");
   answer5 = loadImage("answer5.jpg");
   congrats = loadImage("CONGRATS.jpg");
   restart = loadImage("restart.jpg");
@@ -48,6 +61,10 @@ void setup(){
   myPort = new Serial(this, portName, 9600);
   myPort.bufferUntil('\n');
   size(500 ,500);
+}
+
+void start(){
+  startTime = millis();
 }
 
 void draw(){ 
@@ -68,15 +85,15 @@ for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
 print("Sensor" + sensorNum + ": " + sensors[sensorNum] + "\t");
 }
 println();
-if (millis() < 2000){
+
+if (millis() < startTime+ 2000){
   background(popquiz);
 }
-
   // CASE 1
-  if(millis() > 6000){
+  if(millis() > startTime+ 6000){
     background(case1);
   } 
-  if (millis() > 10000)  {
+  if (millis() > startTime+ 10000)  {
   background(answer1);    
   
   // OP 1
@@ -94,11 +111,11 @@ if (millis() < 2000){
 
 
 //CASE 2
- if (millis() > 13000){
+ if (millis() > startTime+ 13000){
      if (sensors[0] == 0){
           background(case2);
         }
-     if (millis() > 17000){ 
+     if (millis() > startTime+ 17000){ 
          background(answer2);
         //wrong
        if (sensors[0] == 1){ //39 //correct answer
@@ -121,11 +138,11 @@ if (millis() < 2000){
      }
    
  //CASE 3
- if (millis() > 19000){
+ if (millis() > startTime+ 19000){
      if (sensors[0] == 0){
           background(case3);
         }
-     if (millis() > 22000){ 
+     if (millis() > startTime+ 23000){ 
          background(answer3);
         //wrong
        if (sensors[0] == 1){ //39 //correct answer
@@ -146,11 +163,11 @@ if (millis() < 2000){
      }
  
  //CASE 4 
- if (millis() > 25000){
+ if (millis() > startTime+ 27000){
      if (sensors[0] == 0){
           background(case4);
         }
-     if (millis() > 28000){ 
+     if (millis() > startTime+ 31000){ 
          background(answer4);
         //wrong
        if (sensors[0] == 1){ 
@@ -171,18 +188,20 @@ if (millis() < 2000){
      }
  
  //case 5
-  if (millis() > 31000){
+  if (millis() > startTime+ 35000){
      if (sensors[0] == 0){
           background(case5);
         }
-     if (millis() > 34000){ 
+     if (millis() > startTime+ 39000){ 
          background(answer5);
         //correct
        if (sensors[0] == 1){  
            background(right);
            score = 5;
-             background(congrats);
+           if (millis() > startTime + 41000){
+            // background(congrats);
              myPort.write(1); // candy opens
+           }
          }
           //wrong
            if (sensors[1] == 1){
@@ -195,18 +214,18 @@ if (millis() < 2000){
            score = score;
          }
        } // if score == 5 then you win 
- 
      }
 
-if (millis() > 38000){
+if (score == 5){
+if (millis() > startTime+ 45000){
 background(congrats);
-if (millis() > 42000){
+}
+if (millis() > startTime+ 49000) {
   background(restart);
     myPort.write(0);
+    if (sensors[0] == 1){
+   startTime = millis();
 }
 }
 }
-
-
-
-
+}
