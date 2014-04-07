@@ -1,7 +1,6 @@
 // NOT DONE
 //NEEDS TO ADD LIGHTS 
 
-
 #include <Servo.h> 
  
 Servo myservo;  // create servo object to control a servo 
@@ -15,11 +14,11 @@ int button2val = 0;
 int button3 = 4;
 int button3val = 0;
 
+
 void setup(){
-myservo.attach(9);  // attaches the servo on pin 9 to the servo object  
+myservo.attach(5);  // attaches the servo on pin 9 to the servo object  
 
 Serial.begin(9600);
-
 pinMode(button1, INPUT);
 pinMode(button2, INPUT);
 pinMode(button3, INPUT);
@@ -42,11 +41,11 @@ if (Serial.available ()) {
    buttonval = Serial.read();
  }
  if (buttonval == 0){
-   myservo.write(90);
+   myservo.write(0);
    
  }
  if (buttonval == 1){
-   myservo.write(180);
+   myservo.write(70);
   
    }
      delay(15);
